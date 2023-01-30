@@ -148,7 +148,7 @@ then
   branch="develop"
 fi
 echo "target branch: "$branch
-now = date +%Y/%m/%d-%H:%M:%S
+now=`date +%Y/%m/%d-%H:%M:%S`
 echo "now: "$now
 switch_and_update_branch $CURRENT_DIR $branch $now
 echo -e "\033[32m -----批量删除当前本地分支完成-----\033[0m \033[34m"

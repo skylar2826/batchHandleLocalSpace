@@ -8,13 +8,14 @@ echo.
 set dp=%~dp0
 
 setlocal
-set yn=y
+set yn=n
 set /p yn="Whether to show the cache in stash (y | n)? "
 call :confirm !yn!
 echo.
 if !yn!==y (
   call :show_stashes %CD%
 )
+echo -----查看当前目录下所有仓库中的stash缓存数据完成-----
 endlocal
 
 setlocal
@@ -25,16 +26,17 @@ echo.
 if !yn!==y (
   call :clear_stashes %CD%
 )
+echo -----批量删除当前目录下所有仓库中的stash缓存数据完成-----
 endlocal
 
 setlocal
-set yn=y
+set yn=n
 set /p yn="Whether to show all branches (y | n)? "
 call :confirm !yn!
 echo.
 if !yn!==y (
   call :show_branches %CD%
-  echo.
+  echo -----查看当前目录下的所有仓库分支完成-----
 )
 endlocal
 
@@ -57,6 +59,7 @@ set now=%date% %time%
 set now=!now: =-!
 echo now: %now%
 call :switch_and_update_branch %CD% %branch% %now%
+echo -----批量删除本地分支完成-----
 endlocal
 echo.
 echo Finished.
@@ -73,7 +76,6 @@ for /d %%i in (%1\*) do (
     call :show_branches %%i
   )
 )
-echo ----------------------------查看当前目录下的所有仓库分支完成----------------------------
 goto :EOF
 
 :switch_and_update_branch
@@ -100,7 +102,6 @@ for /d %%i in (%1\*) do (
     call :switch_and_update_branch %%i %2 %3
   )
 )
-echo ----------------------------批量删除本地分支完成----------------------------
 goto :EOF
 
 :show_stashes
@@ -111,10 +112,9 @@ for /d %%i in (%1\*) do (
     echo current repo path !p:%dp%=.\!
     git stash list
   ) else (
-    call :show_branches %%i
+    call :show_stashes %%i
   )
 )
-echo ----------------------------查看当前目录下所有仓库中的stash缓存数据完成----------------------------
 goto :EOF
 
 :clear_stashes
@@ -125,23 +125,22 @@ for /d %%i in (%1\*) do (
     echo current repo path !p:%dp%=.\!
     git stash clear
   ) else (
-    call :show_branches %%i
+    call :clear_stashes %%i
   )
 )
-echo ----------------------------批量删除当前目录下所有仓库中的stash缓存数据完成----------------------------
 goto :EOF
 
 
 :confirm
 if !yn!==y (
-  echo yes
+  echo.
 ) else if !yn!==n (
-  echo no
+  echo.
 ) else if !yn!==-1 (
   echo exit.
   exit
 ) else (
-  echo error
+  echo error.
   set /p yn="input error value: !yn!, please re-enter (y | n): "
   call :confirm !yn!
 )
