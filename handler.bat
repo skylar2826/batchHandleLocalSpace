@@ -1,4 +1,4 @@
-@REM 目标：每周清理本地开发环境
+@REM 目标：清理本地开发环境
 @REM 删除本地所有分支和stash缓存，保留${targetBranch}分支
 
 @echo off
